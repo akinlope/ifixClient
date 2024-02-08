@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function SearchResults({ datas, individualInfo, arrow }) {
   // console.log(datas);
@@ -28,10 +29,10 @@ export default function SearchResults({ datas, individualInfo, arrow }) {
             <div onClick={() => userInformation(data)} className=" flex">
               {/* img */}
               <div className=" items-center flex mx-2">
-                <img
+                <Image
                   className=" w-9 h-9 rounded-full bg-pink-600"
                   src={data.image}
-                  alt=""
+                  alt="Result image"
                 />
               </div>
               {/* informations */}

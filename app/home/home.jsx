@@ -13,7 +13,7 @@ import Navbar from "../components/Navbar";
 import { axiosInstance } from "../helpes";
 
 
-export default function home() {
+export default function Home() {
   const [userExist, setUserExist] = useState(false);
   const [email, setEmail] = useState("");
   const [uname, setUname] = useState("");

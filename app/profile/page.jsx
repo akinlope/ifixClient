@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -8,6 +7,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { IoMdMail } from "react-icons/io";
 import Navbar from "../components/Navbar";
 import { axiosInstance } from "../helpes";
+import Image from "next/image";
 
 export default function Page() {
   const [email, setEmail] = useState("");
@@ -46,10 +46,10 @@ export default function Page() {
         {/* Image */}
         {myInfo && (
           <div className=" p-2">
-            <img
+            <Image
               className=" h-full w-full rounded-xl"
               src={myInfo.image}
-              alt=""
+              alt="profile image"
             />
           </div>
         )}

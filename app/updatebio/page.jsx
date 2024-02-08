@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import { axiosInstance } from "../helpes";
 
-export default function page() {
+export default function Page() {
 const router = useRouter()
 
   const [artisan, setArtisan] = useState(false);

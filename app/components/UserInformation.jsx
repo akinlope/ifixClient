@@ -9,9 +9,10 @@ export default function UserInformation({ individual }) {
       {/* images */}
       <div className=" flex justify-center">
         {/* <div className="h-40 w-40 rounded-full bg-slate-700 mb-5"> */}
-        <img
+        <Image
           className=" w-3/6 h-3/6 rounded-lg"
           src={individual.image}
+          alt="User image"
           // width={100}
           // height={100}
         />
