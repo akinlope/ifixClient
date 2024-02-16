@@ -13,8 +13,8 @@ export default function UserInformation({ individual }) {
           className=" w-3/6 h-3/6 rounded-lg"
           src={individual.image}
           alt="User image"
-          // width={100}
-          // height={100}
+          width={100}
+          height={100}
         />
         {/* </div> */}
       </div>

@@ -30,9 +30,11 @@ export default function SearchResults({ datas, individualInfo, arrow }) {
               {/* img */}
               <div className=" items-center flex mx-2">
                 <Image
-                  className=" w-9 h-9 rounded-full bg-pink-600"
+                  className=" w-9 h-9 rounded-full"
                   src={data.image}
                   alt="Result image"
+                  width={36}
+                  height={36}
                 />
               </div>
               {/* informations */}

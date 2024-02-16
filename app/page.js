@@ -11,7 +11,7 @@ export default function page() {
   return (
     <div className='' >
       {/* <Navbar /> */}
-      <Home/>     
+      <Home />     
       <Toaster />
     </div>
   )
