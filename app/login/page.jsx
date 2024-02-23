@@ -62,6 +62,7 @@ export default function Login() {
         return toast.error("Oops! Email is not registered :(");
       }
       if (err?.response?.data === "Incorrect password.") {
+        setLogging(false)
         return toast.error("Wrong password");
       }
 
