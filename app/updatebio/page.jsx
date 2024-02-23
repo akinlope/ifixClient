@@ -1,11 +1,12 @@
 "use client";
 
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+
+import React, {  useState } from "react";
 import Loading from "../components/Loading";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import { axiosInstance } from "../helpes";
+import { Layout } from "../components/Layout";
 
 export default function Page() {
 const router = useRouter()
@@ -100,7 +101,8 @@ const router = useRouter()
   };
 
   return (
-    <main>
+    <Layout>
+      <main>
       <div className=" my-2">
         <Navbar />
       </div>
@@ -448,5 +450,6 @@ const router = useRouter()
         <button onClick={updateBio}>Update Bio</button>
       </form> */}
     </main>
+    </Layout>
   );
 }

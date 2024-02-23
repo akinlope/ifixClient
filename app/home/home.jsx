@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import SearchResults from "../components/SearchResults";
 import toast from "react-hot-toast";
@@ -38,17 +37,13 @@ export default function Home() {
     e.preventDefault();
     console.log("clicked");
 
-    if (searchTxt.length === 0) {
-      return toast.error("Search field can't be empty");
-    }
+    if (searchTxt.length === 0) return toast.error("Search field can't be empty");
     try {
       setLoader(true);
-      console.log("a");
       const response = await axiosInstance.get("/search",{
         params: { profession: searchTxt, email: email },
       });
-      console.log("b");
-      console.log(response);
+
 
       if (
         response.data?.message === "Profession not found within your vicinity"
@@ -59,7 +54,7 @@ export default function Home() {
         setLoader(false);
       } else if (response.status === 200) {
         setData(response.data?.filteredUsers || []);
-        console.log(typeof response.data?.filteredUsers);
+        console.log(typeof response.data?.filteredUsers)
         setSearchTxt("");
         setLoader(false);
       } else {
@@ -91,7 +86,6 @@ export default function Home() {
     }
   };
 
-  // console.log(data);
 
   return (
     <main className="h-screen flex flex-col p-5">

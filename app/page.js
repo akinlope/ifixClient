@@ -5,14 +5,15 @@ import React from 'react'
 import { Toaster } from 'react-hot-toast'
 import Navbar from './components/Navbar'
 import Home from './home/home'
+import { Layout } from './components/Layout'
 
 
 export default function page() {
   return (
     <div className='' >
-      {/* <Navbar /> */}
-      <Home />     
-      <Toaster />
+      <Layout>
+        <Home />
+      </Layout>
     </div>
   )
 }
