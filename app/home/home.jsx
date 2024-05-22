@@ -3,26 +3,43 @@
 import { useEffect, useState } from "react";
 import SearchResults from "../components/SearchResults";
 import toast from "react-hot-toast";
+import TextTransition, { presets } from "react-text-transition";
 // import for react-icon
 import { IoSearch } from "react-icons/io5";
 import { FaArrowLeft } from "react-icons/fa";
+import { FaRegFaceSmileBeam } from "react-icons/fa6";
 //  import component
 import UserInformation from "../components/UserInformation";
 import Navbar from "../components/Navbar";
 import { axiosInstance } from "../helpes";
 
+const TEXT = [
+  "Welcome",
+  "Bienvenido",
+  "ẹkáàbọ̀",
+  "Nnọọ",
+  "Bienvenu",
+  "Sannu da zuwa",
+];
 
 export default function Home() {
   const [userExist, setUserExist] = useState(false);
   const [email, setEmail] = useState("");
   const [uname, setUname] = useState("");
   const [searchTxt, setSearchTxt] = useState("");
+  const [searchCity, setSearchCity] = useState("");
   const [data, setData] = useState([]);
   const [individual, setIndividual] = useState();
   const [loader, setLoader] = useState(false);
+  const [index, setIndex] = useState(0);
 
-
-  // console.log(individual);
+  useEffect(() => {
+    const textPosition = setInterval(
+      () => setIndex((index) => index + 1),
+      5000
+    );
+    return () => clearInterval(textPosition);
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("email") && localStorage.getItem("uname")) {
@@ -35,57 +52,27 @@ export default function Home() {
 
   const search = async (e) => {
     e.preventDefault();
-    console.log("clicked");
 
-    if (searchTxt.length === 0) return toast.error("Search field can't be empty");
+    if (searchTxt.trim().length <= 3)
+      return toast.error("Profession not valid");
+    if (searchCity.trim().length <= 3) return toast.error("City not valid");
+
     try {
       setLoader(true);
-      const response = await axiosInstance.get("/search",{
-        params: { profession: searchTxt, email: email },
+      const response = await axiosInstance.get("/search", {
+        params: { profession: searchTxt, email: email, city: searchCity },
       });
-
-
-      if (
-        response.data?.message === "Profession not found within your vicinity"
-      ) {
-        setData("Profession not found within your vicinity");
-        setSearchTxt("");
-        console.log("Profession not found within your vicinity");
+      if (response?.status === 200) {
         setLoader(false);
-      } else if (response.status === 200) {
-        setData(response.data?.filteredUsers || []);
-        console.log(typeof response.data?.filteredUsers)
-        setSearchTxt("");
-        setLoader(false);
-      } else {
-        console.log("Unhandled response status:", response.status);
-        setSearchTxt("");
-        setLoader(false);
-        // Handle other status codes if needed
+        return setData(response?.data?.filteredByCity);
       }
-
-      setLoader(false);
     } catch (err) {
-      console.log(err);
-      if (err.response.status === 404) {
-        console.log("No user found");
-        setData("Profession not found");
-        setLoader(false);
-      } else if (err.response && err.response.status === 404) {
-        setData("No person found within your city and local government area.");
-        setSearchTxt("");
-        setLoader(false);
-      }else if(err?.response?.data?.error === "Please Login"){
-        toast.error("Please login!");
-        setLoader(false)
-      } else {
-        console.log("Error occurred:", err.message);
-        // Handle other types of errors
-        setLoader(false);
+      setLoader(false);
+      if(err?.response?.status == 404){
+        return setData(err?.response?.data?.error);
       }
     }
   };
-
 
   return (
     <main className="h-screen flex flex-col p-5">
@@ -93,31 +80,56 @@ export default function Home() {
         <Navbar />
       </div>
       {userExist && (
-        <div className="text-txt px-5">
-          Welcome: <span className="text-purple-900 font-bold">{uname}</span>
+        <div className=" px-5 mt-10 -mb-2 flex gap-2 items-center text-purple-500 font-semibold">
+          <TextTransition springConfig={presets.wobbly}>
+            {TEXT[index % TEXT.length]}
+          </TextTransition>
+          <div className=" font-bold text-lg">
+            <FaRegFaceSmileBeam />
+          </div>
         </div>
       )}
 
       <div className="flex flex-1">
         {/* Search */}
         <div className="w-1/3 p-5">
-          <div className="flex items-center border-2 border-purple-500 rounded-md">
-            <div
+          {/* <div className=" border-2 rounded-md"> */}
+          {/* <div
               className=" p-3 cursor-pointer text-purple-900 text-lg"
               onClick={search}
             >
               <IoSearch />
-            </div>
-            <input
-              value={searchTxt}
-              placeholder="Search by profession. E.g plumber"
-              type="text"
-              className="focus:outline-none p-2 w-full"
-              onChange={(e) => {
-                setSearchTxt(e.target.value);
-              }}
-            />
+            </div> */}
+          <input
+            value={searchTxt}
+            placeholder="Profession. E.g plumber"
+            type="text"
+            className=" w-full border-slate-300 border-2 rounded p-2 focus:outline-none focus:border-purple-400"
+            onChange={(e) => {
+              setSearchTxt(e.target.value);
+            }}
+            required
+          />{" "}
+          <br />
+          <input
+            value={searchCity}
+            placeholder="Enter city E.g  "
+            type="text"
+            className=" w-full border-slate-300 border-2 rounded p-2 focus:outline-none focus:border-purple-400 mt-2"
+            onChange={(e) => {
+              setSearchCity(e.target.value);
+            }}
+            required
+          />
+          <div className=" w-full">
+            <button
+              className=" bg-purple-500 hover:bg-purple-900 w-full p-2 text-white font-semibold mt-2 rounded"
+              onClick={search}
+            >
+              SEARCH
+            </button>
           </div>
+          {/* </div> */}
           {/* <span className="loader"></span> */}
         </div>
 
@@ -134,7 +146,7 @@ export default function Home() {
               <span className=" loader"></span>
             </div>
           )}
-          
+
           {!loader && data.length <= 0 && (
             <div className="flex justify-center items-center h-full">
               {
