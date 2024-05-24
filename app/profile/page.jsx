@@ -48,9 +48,9 @@ export default function Page() {
           <div className="w-2/5">
             {/* Image */}
             {myInfo && (
-              <div className=" p-2">
+              <div className=" h-52 overflow-hidden rounded-t-md">
                 <Image
-                  className=" h-full w-full rounded-xl"
+                  className=" object-cover h-full w-full rounded-t-md md:hover:scale-125 lg:hover:scale-125 transition duration-500 ease-in-out"
                   src={myInfo.image}
                   alt="profile image"
                 />
